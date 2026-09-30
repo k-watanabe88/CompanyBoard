@@ -1,0 +1,15 @@
+# React
+frontend/node_modules/
+frontend/dist/
+
+# Visual Studio
+.vs/
+**/bin/
+**/obj/
+
+# Azure Functions
+Backend/local.settings.json
+
+# User-specific files
+*.user
+*.suo
