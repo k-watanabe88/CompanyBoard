@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Repositories.DAO
 {
-    public class BookMarkDAO
+    public class BookmarkDAO
     {
     }
 }

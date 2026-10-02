@@ -1,5 +1,9 @@
 using Azure.Monitor.OpenTelemetry.Exporter;
 using Backend.Data;
+using Backend.Interfaces.DAO;
+using Backend.Interfaces.Service;
+using Backend.Repositories.DAO;
+using Backend.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Azure.Functions.Worker.OpenTelemetry;
@@ -26,5 +30,8 @@ builder.Services.AddDbContext<CompanyBoardContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+
+builder.Services.AddScoped<IUserDAO, UserDAO>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Build().Run();

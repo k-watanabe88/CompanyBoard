@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Interfaces.Service
 {
-    internal interface IEmployeeManegementService
+    public interface IEmployeeManegementService
     {
     }
 }

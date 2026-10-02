@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Interfaces.DAO
 {
-    internal interface IFavoriteDAO
+    public interface IFavoriteDAO
     {
     }
 }

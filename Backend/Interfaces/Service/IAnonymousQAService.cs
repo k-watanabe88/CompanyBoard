@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Interfaces.Service
 {
-    internal interface IAnonymousQAService
+    public interface IAnonymousQAService
     {
     }
 }

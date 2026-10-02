@@ -1,23 +1,48 @@
+using Backend.Interfaces.Service;
+using Backend.Models.DTO.Requests;
+using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace Backend.Functions;
 
 public class AuthFunction
 {
-    private readonly ILogger<AuthFunction> _logger;
+    private readonly IAuthService _authService;
 
-    public AuthFunction(ILogger<AuthFunction> logger)
+    public AuthFunction(IAuthService authService)
     {
-        _logger = logger;
+        _authService = authService;
     }
 
-    [Function("AuthFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+    [Function("Login")]
+    public async Task<HttpResponseData> Login(
+        [HttpTrigger(AuthorizationLevel.Anonymous,"post")] HttpRequestData req)
     {
-        _logger.LogInformation("C# HTTP trigger function processed a request.");
-        return new OkObjectResult("Welcome to Azure Functions!");
+        var loginInfo = await req.ReadFromJsonAsync<LoginRequest>();
+        if (loginInfo == null)
+        {
+            return req.CreateResponse(HttpStatusCode.BadRequest);
+        }
+        var user = await _authService.GetUserForLogin(
+            loginInfo.EmployeeId,
+            loginInfo.Password
+            );
+        if (user == null)
+        {
+            var errorResponse = req.CreateResponse(HttpStatusCode.Unauthorized);
+            await errorResponse.WriteAsJsonAsync(new
+            {
+                message = "ユーザーIDまたはパスワードが正しくありません。"
+            });
+            return errorResponse;
+        }
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(user);
+        return response;
     }
 }
