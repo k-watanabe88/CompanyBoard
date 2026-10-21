@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import { Box } from "@mui/material";
+import { useState } from "react";
 import Header from "../components/Common/Header";
-import { Box, Modal } from "@mui/material";
-import CampaignIcon from '@mui/icons-material/Campaign';
-import NoticeToolbar from "../components/Notice/NoticeToolbar";
-import NoticeNewPost from "../components/Notice/NoticeNewPost";
-import NoticeDetail from "../components/Notice/NoticeDetail";
-import Typography from "@mui/material/Typography";
 import SidebarMenu from "../components/Common/SidebarMenu";
-import type { NoticeData } from "../types/NoticeData";
+import NoticeDetail from "../components/Notice/NoticeDetail";
 import NoticeMain from "../components/Notice/NoticeMain";
+import NoticeNewPost from "../components/Notice/NoticeNewPost";
+import type { NoticeData } from "../types/NoticeData";
 
 type NoticeView = 'main' | 'detail' | 'post';
 
