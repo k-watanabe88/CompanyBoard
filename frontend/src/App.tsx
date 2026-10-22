@@ -4,6 +4,7 @@ import './App.css';
 import InternalBoard from './pages/InternalBoard';
 import Login from "./pages/Login";
 import Notice from "./pages/Notice";
+import TechnicalArticle from './pages/TechnicalArticle';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/board" element={<InternalBoard />} />
+        <Route path="/articles" element={<TechnicalArticle />} />
       </Routes>
     </BrowserRouter>
   )
