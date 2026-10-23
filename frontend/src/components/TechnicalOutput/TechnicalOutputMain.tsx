@@ -2,7 +2,6 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import type { TechnicalOutputData } from "../../types/TechnicalOutputData";
-import SearchBar from "../Common/SearchBar";
 import TechnicalOutputPosts from './TechnicalOutputPosts';
 import TechnicalOutputToolbar from "./TechnicalOutputToolbar";
 
@@ -23,7 +22,7 @@ const TechnicalOutputMain = ({
             <Box
                 sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'left',
                     alignItems: 'center',
                     mb: 3,
                     width: '100%',
@@ -54,11 +53,6 @@ const TechnicalOutputMain = ({
                     <Typography variant="body2" color="text.secondary">
                         日々の学習記録や、些細な気づきを気軽に共有する場所です。
                     </Typography>
-                </Box>
-
-                {/* 右側: 検索バー */}
-                <Box sx={{ minWidth: 300 }}>
-                    <SearchBar onSearch={onSearch} />
                 </Box>
             </Box>
 

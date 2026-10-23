@@ -70,7 +70,7 @@ const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
                                     color: '#8B0020',
                                 }}
                             >
-                                技術記事新規投稿
+                                新規投稿
                             </Typography>
                         </Box>
                         <Divider sx={{ my: 1.5 }} />
