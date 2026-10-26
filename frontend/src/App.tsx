@@ -7,6 +7,7 @@ import Notice from "./pages/Notice";
 import TechnicalArticle from './pages/TechnicalArticle';
 import TechnicalOutput from './pages/TechnicalOutput';
 import AnonymousQA from './pages/AnonymousQA';
+import EmployeeManegement from './pages/EmployeeManegement';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +22,7 @@ function App() {
         <Route path="/articles" element={<TechnicalArticle />} />
         <Route path="/outputs" element={<TechnicalOutput />} />
         <Route path="/questions" element={<AnonymousQA />} />
+        <Route path="/employees" element={<EmployeeManegement />} />
       </Routes>
     </BrowserRouter>
   )
