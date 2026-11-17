@@ -1,30 +1,47 @@
-import React from 'react';
-import { Box, Card, CardContent, Typography, Checkbox, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import type { NoticeData } from '../../types/NoticeData';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
+import { Box, Button, Card, CardContent, Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import type { NoticeDetailData } from '../../types/NoticeDetailData';
+import { useState } from 'react';
+
 
 type NoticeDetailProps = {
-    notice: NoticeData;
+    notice: NoticeDetailData;
     onClose: () => void;
 };
 
-//仮情報
-function createData(
-    employeeId: number,
-    department: string,
-    name: string,
-) {
-    return { employeeId, department, name };
-}
-const rows = [
-    createData(1, '開発部', '田中'),
-    createData(2, '営業部', '鈴木')
-];
-
 const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
+
+    const [isChecked, setIsChecked] = useState(notice.IsChecked);
+
+    const handleNoticeCheck = async () => {
+    try {
+        const response = await fetch(
+            "http://localhost:7133/api/Notice/Check",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    postId: notice.Id
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("確認状態の更新に失敗しました。");
+        }
+
+        setIsChecked(true);
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+
     return (
         <Box>
             <Box
@@ -40,14 +57,14 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 一覧へ戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
                 <Button
                     variant="contained"
@@ -76,10 +93,10 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 5.0 }}>
                             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                投稿日時：{notice.CreatedAt.toLocaleDateString()}
+                                投稿日時：{notice.CreatedAt.split('T')[0]}
                             </Typography>
                             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                期限：{notice.DueDate.toLocaleDateString()}
+                                確認期限：{notice.DueDate.split('T')[0]}
                             </Typography>
                         </Box>
                         <Divider sx={{ my: 1.5 }} />
@@ -101,9 +118,9 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
                                 }}
                             >
                                 <Checkbox
-                                    checked={notice.IsChecked}
-                                    onChange={() => { }}
-                                    sx={{ pointerEvents: 'none' }}
+                                    checked={isChecked}
+                                    disabled={isChecked}
+                                    onChange={handleNoticeCheck}
                                 />
                                 確認しました
                             </Button>
@@ -150,19 +167,19 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
                             </TableHead>
 
                             <TableBody>
-                                {rows.map((row) => (
+                                {notice.UnconfirmedUserList.map((user) => (
                                     <TableRow
-                                        key={row.employeeId}
+                                        key={user.EmployeeId}
                                         sx={{
                                             '&:last-child td, &:last-child th': {
                                                 border: 0,
                                             },
                                         }}
                                     >
-                                        <TableCell>{row.employeeId}</TableCell>
-                                        <TableCell align="left">{row.department}</TableCell>
+                                        <TableCell>{user.EmployeeId}</TableCell>
+                                        <TableCell align="left">{user.Department}</TableCell>
                                         <TableCell align="left" sx={{ fontWeight: 'bold' }}>
-                                            {row.name}
+                                            {user.UserName}
                                         </TableCell>
                                     </TableRow>
                                 ))}

@@ -1,4 +1,5 @@
 ﻿using Backend.Models.DB;
+using Backend.Models.DTO.Responces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Backend.Interfaces.Service
 {
     public interface IAuthService
     {
-        Task<User?> GetUserForLogin(string employeeId, string password);
+        Task<LoginResponseDTO?> GetUserForLogin(string employeeId, string password);
     }
 }

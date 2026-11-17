@@ -10,7 +10,7 @@ namespace Backend.Models.DTO.Requests
     /// <summary>
     /// ログインリクエスト用DTO
     /// </summary>
-    public class LoginRequest
+    public class LoginRequestDTO
     {
         /// <summary>
         /// 社員番号

@@ -2,15 +2,15 @@ import type { Comment } from "./Comment";
 /**
  * 
  */
-type TechnicalArticleData = {
-    id: number;
-    title: string;
-    text: string;
-    postUserName: string;
-    createdAt: string;
-    isFavorite: boolean;
-    isFavoriteCount: number;
-    comments: Comment[]
+type TechnicalOutputData = {
+    Id: number;
+    Title: string;
+    Text: string;
+    PostUserName: string;
+    CreatedAt: string;
+    IsFavorite: boolean;
+    IsFavoriteCount: number;
+    Comments: Comment[]
 }
 
-export type { TechnicalArticleData }
+export type { TechnicalOutputData }

@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { NavLink } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { useAuth } from "../../AuthContext";
 
 const menuItems = [
     { label: 'お知らせ', path: '/notice', icon: NotificationsIcon },
@@ -26,6 +27,7 @@ const menuItems = [
 ];
 
 const SidebarMenu = () => {
+    const {authUser} = useAuth();
 
     const handleLogout = () => {
         // ログアウト処理をここに実装する
@@ -83,16 +85,18 @@ const SidebarMenu = () => {
                         mb: 2,
                     }}
                 >
-                    <Avatar>山</Avatar>
+                    <Avatar>
+                        {authUser?.userName?.charAt(0) ?? ''}
+                    </Avatar>
 
                     <Box>
                         <Typography variant="body2"
                             sx={{ fontWeight: 'bold' }}
                         >
-                            山田 太郎
+                            {authUser?.userName}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            管理者
+                            {authUser?.role}
                         </Typography>
                     </Box>
                 </Box>

@@ -8,7 +8,9 @@ import {
     CardContent
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 
 type NoticeNewPostProps = {
     onClose: () => void;
@@ -33,14 +35,14 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
             </Box>
             <Card
@@ -53,9 +55,25 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
             >
                 <CardContent>
                     <Box sx={{ textAlign: 'left', mb: 2, px: 2 }}>
-                        <Typography variant="h6" gutterBottom>
-                            掲示板新規投稿
-                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                mb: 0.5,
+                            }}
+                        >
+                            <PostAddIcon sx={{ fontSize: 32, color: '#e91e63' }} />
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    color: '#8B0020',
+                                }}
+                            >
+                                新規投稿
+                            </Typography>
+                        </Box>
                         <Divider sx={{ my: 1.5 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                             <TextField

@@ -1,37 +1,33 @@
-import React from "react";
-import { Box, Tabs, Tab } from "@mui/material";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
+import { Box, Tab, Tabs } from "@mui/material";
+import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import type { SortMode } from "../../types/SortMode";
 
 type NoticeToolbarProps = {
     onPostClick: () => void;
+    selectedTab: number;
+    onTabChange: (value: number) => void;
+    sortMode: SortMode;
+    onSortChange: (value: SortMode) => void;
 }
 
-const NoticeToolbar = ({onPostClick}:NoticeToolbarProps) => {
-
-    const [value, setValue] = React.useState('one');
-
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+const NoticeToolbar = ({ onPostClick, selectedTab, onTabChange, sortMode, onSortChange }: NoticeToolbarProps) => {
 
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Tabs
-                    value={value}
-                    onChange={handleChange}
+                    value={selectedTab}
+                    onChange={(_, newValue) => onTabChange(newValue)}
                     textColor="secondary"
                     indicatorColor="secondary"
                     aria-label="secondary tabs example"
                 >
-                    <Tab value="one" label="すべて" />
-                    <Tab value="two" label="重要" />
+                    <Tab value={0} label="すべて" />
+                    <Tab value={1} label="重要" />
                 </Tabs>
                 <Box sx={{
                     display: 'flex',
@@ -52,15 +48,15 @@ const NoticeToolbar = ({onPostClick}:NoticeToolbarProps) => {
                     </Button>
                     <FormControl size="small" sx={{ minWidth: 100 }}>
                         <Select
-                            defaultValue="newest"
+                            value={sortMode}
+                            onChange={(e) => onSortChange(e.target.value as SortMode)}
                         >
                             <MenuItem value="newest">投稿順</MenuItem>
-                            <MenuItem value="oldest">期限順</MenuItem>
+                            <MenuItem value="deadline">期限順</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
             </Box>
-            <Divider />
         </Box>
     );
 }

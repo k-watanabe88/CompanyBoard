@@ -62,9 +62,9 @@ const AnonymousQAPosts = ({ onNoticeClick }: AnonymousQAPostsProps) => {
                 sx={{
                     borderRadius: 2,
                     overflow: 'hidden',
+                    cursor: 'pointer',
                 }}
             >
-                <CardActionArea disableRipple>
 
                     <CardContent>
                         <Box
@@ -184,7 +184,6 @@ const AnonymousQAPosts = ({ onNoticeClick }: AnonymousQAPostsProps) => {
                             </Typography>
                         </Box>
                     </CardContent>
-                </CardActionArea>
             </Card>
         </Box>
     );

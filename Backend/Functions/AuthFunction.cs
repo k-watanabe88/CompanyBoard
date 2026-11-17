@@ -23,16 +23,16 @@ public class AuthFunction
     public async Task<HttpResponseData> Login(
         [HttpTrigger(AuthorizationLevel.Anonymous,"post")] HttpRequestData req)
     {
-        var loginInfo = await req.ReadFromJsonAsync<LoginRequest>();
+        var loginInfo = await req.ReadFromJsonAsync<LoginRequestDTO>();
         if (loginInfo == null)
         {
             return req.CreateResponse(HttpStatusCode.BadRequest);
         }
-        var user = await _authService.GetUserForLogin(
+        var responseUserInfo = await _authService.GetUserForLogin(
             loginInfo.EmployeeId,
             loginInfo.Password
             );
-        if (user == null)
+        if (responseUserInfo == null)
         {
             var errorResponse = req.CreateResponse(HttpStatusCode.Unauthorized);
             await errorResponse.WriteAsJsonAsync(new
@@ -42,7 +42,7 @@ public class AuthFunction
             return errorResponse;
         }
         var response = req.CreateResponse(HttpStatusCode.OK);
-        await response.WriteAsJsonAsync(user);
+        await response.WriteAsJsonAsync(responseUserInfo);
         return response;
     }
 }

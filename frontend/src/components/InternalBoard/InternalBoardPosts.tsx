@@ -1,9 +1,9 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Box, Card, CardActionArea, CardContent, Divider, IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
-
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 import type { InternalBoardData } from '../../types/InternalBoardData';
 
 type InternalBoardPostsProps = {
@@ -68,37 +68,117 @@ const InternalBoardPosts = ({ onNoticeClick }: InternalBoardPostsProps) => {
             >
                 <CardActionArea>
                     <CardContent>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 10.0 }}>
-                                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                    2026/10/01
-                                </Typography>
-                                <Typography variant="h6" gutterBottom>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                gap: 2,
+                                mb: 2,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1.5,
+                                    minWidth: 0,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        bgcolor: '#F0F0F0',
+                                        borderRadius: 1.5,
+                                        p: 1,
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    <DescriptionOutlinedIcon
+                                        sx={{ color: '#555555' }}
+                                    />
+                                </Box>
+
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        overflowWrap: 'anywhere',
+                                    }}
+                                >
                                     投稿タイトル
                                 </Typography>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', px: 5 }}>
-                                <IconButton
-                                    onClick={handleLikeClick}
-                                    color="error"
-                                    aria-label="いいね"
-                                >
-                                    {isLiked ? (
-                                        <FavoriteIcon />
-                                    ) : (
-                                        <FavoriteBorderIcon />
-                                    )}
-                                </IconButton>
-                                <Typography variant="body2">
-                                    1
-                                </Typography>
+
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                    flexShrink: 0,
+                                }}
+                            >
+
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <IconButton
+                                        onClick={handleLikeClick}
+                                        color="error"
+                                        aria-label="いいね"
+                                        size="small"
+                                    >
+                                        {isLiked ? (
+                                            <FavoriteIcon />
+                                        ) : (
+                                            <FavoriteBorderIcon />
+                                        )}
+                                    </IconButton>
+
+                                    <Typography variant="body2">
+                                        1
+                                    </Typography>
+                                </Box>
                             </Box>
                         </Box>
+
                         <Divider sx={{ my: 1.5 }} />
 
-                        <Box sx={{ display: 'flex', justifyContent: 'left', alignItems: 'center', px: 2, gap: 2 }}>
-                            <Typography variant="body2">
-                                投稿者：田中
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                gap: 2,
+                                mt: 2,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                    minWidth: 0,
+                                }}
+                            >
+                                <PersonIcon
+                                    sx={{ color: 'text.secondary', fontSize: 20 }}
+                                />
+
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    田中
+                                </Typography>
+                            </Box>
+
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ whiteSpace: 'nowrap' }}
+                            >
+                                2026/10/01
                             </Typography>
                         </Box>
                     </CardContent>

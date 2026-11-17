@@ -10,6 +10,7 @@ import {
 import Divider from '@mui/material/Divider';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 
 type TechnicalArticleNewPostProps = {
     onClose: () => void;
@@ -34,14 +35,14 @@ const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
             </Box>
             <Card

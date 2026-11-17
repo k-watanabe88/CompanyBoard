@@ -10,12 +10,13 @@ import {
 import Divider from '@mui/material/Divider';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 
-type TechnicalOutputNewPostProps = {
+type AnonymousQANewPostProps = {
     onClose: () => void;
 };
 
-const TechnicalOutputNewPost = ({ onClose }: TechnicalOutputNewPostProps) => {
+const AnonymousQANewPost = ({ onClose }: AnonymousQANewPostProps) => {
 
     const [body, setBody] = useState('');
 
@@ -34,14 +35,14 @@ const TechnicalOutputNewPost = ({ onClose }: TechnicalOutputNewPostProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
             </Box>
             <Card
@@ -136,4 +137,4 @@ const TechnicalOutputNewPost = ({ onClose }: TechnicalOutputNewPostProps) => {
     );
 };
 
-export default TechnicalOutputNewPost;
+export default AnonymousQANewPost;

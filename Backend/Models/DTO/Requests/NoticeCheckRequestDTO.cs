@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Repositories.DAO
+namespace Backend.Models.DTO.Requests
 {
-    public class NoticeCheckDAO
+    public class NoticeCheckRequestDTO
     {
+        public int PostId { get; set; }
     }
 }

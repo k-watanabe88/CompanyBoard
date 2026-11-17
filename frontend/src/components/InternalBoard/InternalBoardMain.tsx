@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import type { InternalBoardData } from "../../types/InternalBoardData";
 import SearchBar from "../Common/SearchBar";
 import InternalBoardPosts from "./InternalBoardPosts";
-import InternalBoardToolbar from "./InternalBoardToolBar";
+import InternalBoardToolbar from "./InternalBoardToolbar";
 
 type InternalBoardMainProps = {
     onNoticeClick: (notice: InternalBoardData) => void;

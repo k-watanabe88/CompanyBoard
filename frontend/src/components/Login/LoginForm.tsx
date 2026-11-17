@@ -1,47 +1,55 @@
 import { useState } from "react";
-import { Avatar, Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, TextField, Typography } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/AuthService";
+import { useAuth } from "../../AuthContext";
 
 const LoginForm = () => {
 
-const [employeeId, setEmployeeId] = useState("");
-const [password, setPassword] = useState("");
-const navigate = useNavigate();
-const [loginError, setLoginError] = useState("");
-const [employeeIdError, setEmployeeIdError] = useState("");
-const [passwordError, setPasswordError] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const [loginError, setLoginError] = useState("");
+    const [employeeIdError, setEmployeeIdError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const { setAuthUser } = useAuth();
 
 
-const handleLogin = async () => {
-    setEmployeeIdError("");
-    setPasswordError("");
-    //社員番号入力チェック
-    if (!employeeId) {
-        setEmployeeIdError("社員番号を入力してください。");
-        return;
-    }
-    //パスワード入力チェック
-    if (!password) {
-        setPasswordError("パスワードを入力してください。");
-        return;
-    }
-    try {
-        const userData = await login(employeeId, password);
-        console.log("ログイン成功", userData);
-        navigate("/notice");
+    const handleLogin = async () => {
         setLoginError("");
-    } catch (error) {
-        if (error instanceof Error) {
-            if (error.message === "ユーザーIDまたはパスワードが正しくありません。") {
-                setLoginError(error.message);
-                return;
-            }
+        setEmployeeIdError("");
+        setPasswordError("");
+        let hasError = false;
+        //社員番号入力チェック
+        if (!employeeId) {
+            setEmployeeIdError("社員番号を入力してください。");
+            hasError = true;
         }
-        setLoginError("ログインに失敗しました。");
-    }
-};
+        //パスワード入力チェック
+        if (!password) {
+            setPasswordError("パスワードを入力してください。");
+            hasError = true;
+        }
+        if (hasError) {
+            return;
+        }
+
+        try {
+            const userData = await login(employeeId, password);
+            setAuthUser(userData);
+            navigate("/notice");
+            setLoginError("");
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.message === "ユーザーIDまたはパスワードが正しくありません。") {
+                    setLoginError(error.message);
+                    return;
+                }
+            }
+            setLoginError("ログインに失敗しました。");
+        }
+    };
 
     return (
         <>
@@ -64,7 +72,10 @@ const handleLogin = async () => {
                 onChange={(e) => setEmployeeId(e.target.value)}
                 variant="standard"
                 fullWidth
-                required />
+                required
+                error={employeeIdError !== ""}
+                helperText={employeeIdError || " "}
+            />
             <TextField
                 type="password"
                 label="パスワード"
@@ -73,8 +84,17 @@ const handleLogin = async () => {
                 variant="standard"
                 fullWidth
                 required
+                error={passwordError !== ""}
+                helperText={passwordError || " "}
             />
-
+            <Typography
+                sx={{
+                    fontSize: "0.875rem",
+                    color: "error.main"
+                }}
+            >
+                {loginError}
+            </Typography>
             <Box
                 sx={{
                     mt: "100px"

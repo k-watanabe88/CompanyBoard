@@ -1,6 +1,7 @@
 ﻿using Backend.Interfaces.DAO;
 using Backend.Interfaces.Service;
 using Backend.Models.DB;
+using Backend.Models.DTO.Responces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,11 @@ namespace Backend.Services
         /// <param name="employeeId">社員番号</param>
         /// <param name="password">パスワード</param>
         /// <returns>ユーザー情報</returns>
-        public async Task<User?> GetUserForLogin(string employeeId, string password)
+        public async Task<LoginResponseDTO?> GetUserForLogin(string employeeId, string password)
         {
             var user = await _userDAO.GetUserByEmployeeIdAndPassword(employeeId, password);
-            return user;
+            LoginResponseDTO responseUserInfo = new LoginResponseDTO { UserId = user.Id, UserName = user.Name, Role = user.Role };
+            return responseUserInfo;
         }
     }
 }

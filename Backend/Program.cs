@@ -33,5 +33,7 @@ builder.Services.AddDbContext<CompanyBoardContext>(options =>
 
 builder.Services.AddScoped<IUserDAO, UserDAO>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<INoticeDAO, NoticeDAO>();
+builder.Services.AddScoped<INoticeService, NoticeService>();
 
 builder.Build().Run();

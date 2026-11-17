@@ -1,42 +1,46 @@
-import { useState } from 'react';
 import {
     Box,
     Button,
+    Card,
+    CardContent,
     FormControl,
     FormControlLabel,
     FormLabel,
     Radio,
     RadioGroup,
     TextField,
-    Typography,
-    Card,
-    CardContent
+    Typography
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import type { NoticeData } from '../../types/NoticeData';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import SendIcon from '@mui/icons-material/Send';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
+import { useState } from 'react';
+import type { NoticeNewPostData } from "../../types/NoticeNewPostData"
+import { noticeNewPost } from "../../services/NoticeService";
 
 type NoticeNewPostProps = {
     onClose: () => void;
 };
 
-//仮情報
-function createData(
-    employeeId: number,
-    department: string,
-    name: string,
-) {
-    return { employeeId, department, name };
-}
-
 const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
 
     const [title, setTitle] = useState('');
-    const [importance, setImportance] = useState<'通常' | '重要'>('通常');
+    const [importance, setImportance] = useState(false);
     const [dueDate, setDueDate] = useState('');
-    const [body, setBody] = useState('');
+    const [text, setText] = useState('');
+
+    const handleNewPost = async () => {
+        const postData: NoticeNewPostData = {
+            Title: title,
+            Text: text,
+            DueDate: dueDate,
+            IsImportant: importance,
+        };
+        await noticeNewPost(postData);
+        onClose();
+    }
+        
 
     return (
         <Box>
@@ -53,14 +57,14 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
             </Box>
             <Card
@@ -73,13 +77,32 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
             >
                 <CardContent>
                     <Box sx={{ textAlign: 'left', mb: 2, px: 2 }}>
-                        <Typography variant="h6" gutterBottom>
-                            お知らせ新規投稿
-                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                mb: 0.5,
+                            }}
+                        >
+                            <PostAddIcon sx={{ fontSize: 32, color: '#e91e63' }} />
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 'bold',
+                                    color: '#8B0020',
+                                }}
+                            >
+                                お知らせ新規投稿
+                            </Typography>
+                        </Box>
                         <Divider sx={{ my: 1.5 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                             <TextField
                                 label="タイトル"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                helperText={`${title.length}/100文字（5文字以上）`}
                                 required
                                 fullWidth
                             />
@@ -88,18 +111,18 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
                                 <FormLabel required>重要度</FormLabel>
                                 <RadioGroup
                                     row
-                                    value={importance}
+                                    value={importance ? 'true' : 'false'}
                                     onChange={(e) =>
-                                        setImportance(e.target.value as '通常' | '重要')
+                                        setImportance(e.target.value === 'true')
                                     }
                                 >
                                     <FormControlLabel
-                                        value="通常"
+                                        value='false'
                                         control={<Radio />}
                                         label="通常"
                                     />
                                     <FormControlLabel
-                                        value="重要"
+                                        value='true'
                                         control={<Radio />}
                                         label="重要"
                                     />
@@ -124,10 +147,10 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
                                 fullWidth
                                 multiline
                                 minRows={8}
-                                value={body}
-                                onChange={(e) => setBody(e.target.value)}
-                                helperText={`${body.length}/1000文字（5文字以上）`}
-                                error={body.trim().length > 0 && body.trim().length < 5}
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                helperText={`${text.length}/1000文字（5文字以上）`}
+                                error={text.trim().length > 0 && text.trim().length < 5}
                             />
 
                             <Box
@@ -139,14 +162,29 @@ const NoticeNewPost = ({ onClose }: NoticeNewPostProps) => {
                                 }}
                             >
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
+                                    startIcon={<SendIcon />}
+                                    onClick={handleNewPost}
                                     sx={{
-                                        borderRadius: 10,
-                                        px: 3,
-                                        py: 1,
+                                        width: 156,
+                                        height: 44,
+                                        borderRadius: '24px',
+                                        border: '2px solid #FF812D',
+                                        color: '#F47721',
+                                        fontSize: 15,
+                                        fontWeight: 'bold',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.12)',
+                                        '&:hover': {
+                                            border: '2px solid #F47721',
+                                            bgcolor: '#FFF5EE',
+                                        },
+                                        '&.Mui-disabled': {
+                                            border: '2px solid #FFD0B2',
+                                            color: '#EAB18D',
+                                        },
                                     }}
                                 >
-                                    投稿
+                                    送信
                                 </Button>
                             </Box>
                         </Box >

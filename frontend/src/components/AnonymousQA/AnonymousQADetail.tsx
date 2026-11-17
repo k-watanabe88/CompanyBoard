@@ -4,6 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PersonIcon from '@mui/icons-material/Person';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import { Box, Button, Card, CardContent, Collapse, IconButton, Typography, Chip } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
@@ -32,14 +33,14 @@ const AnonymousQADetail = ({ post, onClose }: AnonymousQADetailProps) => {
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 一覧へ戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
                 <Button
                     variant="contained"

@@ -7,6 +7,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PersonIcon from '@mui/icons-material/Person';
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import { Box, Button, Card, CardContent, Collapse, IconButton, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
@@ -35,14 +36,14 @@ const TechnicalArticleDetail = ({ post, onClose }: TechnicalArticleDetailProps) 
                 <Typography
                     onClick={onClose}
                     sx={{
+                        display: 'flex',
+                        alignItems: 'center',
                         cursor: 'pointer',
                         color: 'primary.main',
-                        '&:hover': {
-                            textDecoration: 'underline',
-                        },
                     }}
                 >
-                    ← 一覧へ戻る
+                    <ArrowBackSharpIcon />
+                    戻る
                 </Typography>
                 <Button
                     variant="contained"

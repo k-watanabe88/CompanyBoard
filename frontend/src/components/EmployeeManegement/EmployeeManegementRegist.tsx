@@ -71,7 +71,7 @@ const EmployeeManegementRegist = ({  onClose }: EmployeeManegementRegistProps) =
                             fontWeight: 'bold',
                         }}
                     >
-                        社員情報編集
+                        新規社員登録
                     </Typography>
                 </Box>
 

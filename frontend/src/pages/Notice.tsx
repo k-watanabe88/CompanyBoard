@@ -1,20 +1,66 @@
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Common/Header";
 import SidebarMenu from "../components/Common/SidebarMenu";
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import NoticeMain from "../components/Notice/NoticeMain";
 import NoticeNewPost from "../components/Notice/NoticeNewPost";
+import { getNoticeData, getNoticeDetail } from "../services/NoticeService";
 import type { NoticeData } from "../types/NoticeData";
+import type { NoticeDetailData } from "../types/NoticeDetailData";
+import type { SortMode } from "../types/SortMode";
+import { getDisplayNoticeList } from "../utils/NoticeUtils";
 
 type NoticeView = 'main' | 'detail' | 'post';
 
 const Notice = () => {
 
     const [view, setView] = useState<NoticeView>('main')
+    const [error, setError] = useState("");
+    const [selectedTab, setSelectedTab] = useState(0);
+    const [sortMode, setSortMode] = useState<SortMode>('newest');
 
-    const [selectedNotice, setSelectedNotice] =
-        useState<NoticeData>();
+    useEffect(() => { window.scrollTo({ top: 0 }); }, [view]);
+
+    const [noticeList, setNoticeList] =
+        useState<NoticeData[]>([]);
+
+    const [noticeDetail, setNoticeDetail] =
+        useState<NoticeDetailData | null>(null);
+
+    const onNoticeClick = async (postId: number) => {
+        try {
+            const data = await getNoticeDetail(postId);
+
+            setNoticeDetail(data);
+            setView('detail');
+            window.scrollTo({ top: 0 });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const loadNotice = async () => {
+        try {
+            const data = await getNoticeData();
+            setNoticeList(data);
+            console.log(data);
+        } catch (error) {
+            setError("情報の取得に失敗しました");
+        }
+    };
+
+    const displayList = getDisplayNoticeList(
+        noticeList,
+        selectedTab,
+        sortMode
+    );
+
+    useEffect(() => {
+        if (view === 'main') {
+            loadNotice();
+        }
+    }, [view]);
 
     return (
         <Box>
@@ -40,18 +86,20 @@ const Notice = () => {
 
                     {view === 'main' && (
                         <NoticeMain
-                            onNoticeClick={(notice: NoticeData) => {
-                                setSelectedNotice(notice);
-                                setView('detail')
-                            }}
+                            onNoticeClick={onNoticeClick}
                             onPostClick={() => setView('post')}
+                            noticeList={displayList}
+                            selectedTab={selectedTab}
+                            onTabChange={setSelectedTab}
+                            sortMode={sortMode}
+                            onSortChange={setSortMode}
                         />
                     )}
 
-                    {view === 'detail' && selectedNotice &&(
+                    {view === 'detail' && noticeDetail && (
                         <NoticeDetail
                             onClose={() => setView('main')}
-                            notice={selectedNotice}
+                            notice={noticeDetail}
 
                         />
                     )}

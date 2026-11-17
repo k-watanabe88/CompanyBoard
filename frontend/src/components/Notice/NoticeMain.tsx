@@ -1,18 +1,29 @@
-import { Box, Modal } from "@mui/material";
 import CampaignIcon from '@mui/icons-material/Campaign';
-import NoticeToolbar from "./NoticeToolbar";
-import NoticeAllPosts from "./NoticeAllPosts";
+import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import type { NoticeData } from "../../types/NoticeData";
+import type { SortMode } from "../../types/SortMode";
+import NoticePosts from "./NoticePosts";
+import NoticeToolbar from "./NoticeToolbar";
 
 type NoticeMainProps = {
-    onNoticeClick: (notice: NoticeData) => void;
+    onNoticeClick: (postId: number) => void;
     onPostClick: () => void;
+    noticeList: NoticeData[];
+    selectedTab: number;
+    onTabChange: (value: number) => void;
+    sortMode: SortMode;
+    onSortChange: (value: SortMode) => void;
 };
 
 const NoticeMain = ({
     onNoticeClick,
     onPostClick,
+    noticeList,
+    selectedTab,
+    onTabChange,
+    sortMode,
+    onSortChange
 }: NoticeMainProps) => {
 
     return (
@@ -26,21 +37,32 @@ const NoticeMain = ({
                     }}
                 >
                     <CampaignIcon sx={{ fontSize: 36, color: '#e91e63' }} />
-                    <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontWeight: 'bold',
+                            color: '#8B0020',
+                        }}
+                    >
                         お知らせ
                     </Typography>
                 </Box>
 
-                <Typography color="text.secondary">
+                <Typography variant="body2" color="text.secondary">
                     会社全体の通知や、確認期限のある重要な連絡事項を共有・確認する場所です。
                 </Typography>
             </Box>
 
             <NoticeToolbar
                 onPostClick={onPostClick}
+                selectedTab={selectedTab}
+                onTabChange={onTabChange}
+                sortMode={sortMode}
+                onSortChange={onSortChange}
             />
-            <NoticeAllPosts
+            <NoticePosts
                 onNoticeClick={onNoticeClick}
+                noticeList={noticeList}
             />
         </>
     );

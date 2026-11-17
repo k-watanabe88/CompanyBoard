@@ -11,9 +11,9 @@ public partial class NoticeCheck
 
     public int PostId { get; set; }
 
-    public bool IsCheck { get; set; }
+    public bool IsChecked { get; set; }
 
-    public virtual Post Post { get; set; } = null!;
+    public virtual NoticePost Post { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

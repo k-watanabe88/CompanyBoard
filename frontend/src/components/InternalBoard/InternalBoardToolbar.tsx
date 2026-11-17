@@ -8,16 +8,18 @@ type InternalBoardToolbarProps = {
     onPostClick: () => void;
 }
 
-const InternalBoardToolbar = ({onPostClick}:InternalBoardToolbarProps) => {
+const InternalBoardToolbar = ({ onPostClick }: InternalBoardToolbarProps) => {
 
     return (
         <Box>
-            <Box sx={{ display: 'flex', justifyContent: 'right', alignItems: 'center', mb: 2 }}>
-                <Box sx={{
-                    display: 'flex',
-                    gap: 2,
-                    px: 2,
-                }}>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'right',
+                alignItems: 'center',
+                mb: 2,
+                gap: 2,
+                px: 2
+            }}>
                     <Button
                         variant="contained"
                         onClick={onPostClick}
@@ -32,8 +34,6 @@ const InternalBoardToolbar = ({onPostClick}:InternalBoardToolbarProps) => {
                     </Button>
                 </Box>
             </Box>
-            <Divider />
-        </Box>
     );
 }
 
