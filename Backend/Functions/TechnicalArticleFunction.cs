@@ -1,23 +1,31 @@
+using Backend.Interfaces.Service;
+using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace Backend.Functions;
 
 public class TechnicalArticleFunction
 {
-    private readonly ILogger<TechnicalArticleFunction> _logger;
+    private readonly ITechnicalArticleService _TechnicalArticleService;
 
-    public TechnicalArticleFunction(ILogger<TechnicalArticleFunction> logger)
+    public TechnicalArticleFunction(ITechnicalArticleService TechnicalArticleService)
     {
-        _logger = logger;
+        _TechnicalArticleService = TechnicalArticleService;
     }
 
-    [Function("ArticleFunction")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+    [Function("ArticleList")]
+    public async Task<HttpResponseData> GetArticleList(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Article/List")] HttpRequestData req)
     {
-        _logger.LogInformation("C# HTTP trigger function processed a request.");
-        return new OkObjectResult("Welcome to Azure Functions!");
+        var userId = 3; // å„ÇŸÇ«îFèÿèàóùÇ…íuÇ´ä∑Ç¶ÇÈ
+        var articleListInfo = await _TechnicalArticleService.GetArticleList(userId);
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(articleListInfo);
+        return response;
     }
 }

@@ -7,15 +7,22 @@ import TechnicalArticlePosts from "./TechnicalArticlePosts";
 import TechnicalArticleToolbar from "./TechnicalArticleToolbar";
 
 type TechnicalArticleMainProps = {
-    onNoticeClick: (notice: TechnicalArticleData) => void;
+    onArticleClick: (postId: number) => void;
     onPostClick: () => void;
     onSearch: () => void;
+    articleList: TechnicalArticleData[];
+    selectedTab: number;
+    onTabChange: (value: number) => void;
 };
 
 const TechnicalArticleMain = ({
-    onNoticeClick,
+    onArticleClick,
     onPostClick,
-    onSearch
+    onSearch,
+    articleList,
+    selectedTab,
+    onTabChange
+
 }: TechnicalArticleMainProps) => {
 
     return (
@@ -64,9 +71,12 @@ const TechnicalArticleMain = ({
 
             <TechnicalArticleToolbar
                 onPostClick={onPostClick}
+                selectedTab={selectedTab}
+                onTabChange={onTabChange}
             />
             <TechnicalArticlePosts
-                onNoticeClick={onNoticeClick}
+                onArticleClick={onArticleClick}
+                articleList={articleList}
             />
         </>
     );

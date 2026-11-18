@@ -13,7 +13,7 @@ public partial class TechnicalArticlePost
 
     public int? UserId { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public virtual ICollection<TechnicalArticleBookmark> TechnicalArticleBookmarks { get; set; } = new List<TechnicalArticleBookmark>();
 

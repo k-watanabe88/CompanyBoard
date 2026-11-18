@@ -35,5 +35,7 @@ builder.Services.AddScoped<IUserDAO, UserDAO>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<INoticeDAO, NoticeDAO>();
 builder.Services.AddScoped<INoticeService, NoticeService>();
+builder.Services.AddScoped<ITechnicalArticleDAO, TechnicalArticleDAO>();
+builder.Services.AddScoped<ITechnicalArticleService, TechnicalArticleService>();
 
 builder.Build().Run();

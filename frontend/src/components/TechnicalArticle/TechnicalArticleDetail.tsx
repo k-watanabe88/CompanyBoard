@@ -11,7 +11,7 @@ import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import { Box, Button, Card, CardContent, Collapse, IconButton, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { useState } from 'react';
-import type { TechnicalArticleData } from '../../types/TechnicalArticleData';
+import type { TechnicalArticleData } from '../../types/TechnicalArticleDetailData';
 import CommentForm from '../Common/CommentForm';
 
 type TechnicalArticleDetailProps = {

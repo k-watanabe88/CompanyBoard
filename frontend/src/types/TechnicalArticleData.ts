@@ -1,17 +1,14 @@
-import type { Comment } from "./Comment";
 /**
  * 
  */
 type TechnicalArticleData = {
-    id: number;
-    title: string;
-    text: string;
-    postUserName: string;
-    createdAt: string;
-    isFavorite: boolean;
-    isFavoriteCount: number;
-    isBookmark: boolean;
-    comments: Comment[]
+    Id: number;
+    Title: string;
+    PostUserName: string;
+    CreatedAt: string;
+    IsFavorite: boolean;
+    IsFavoriteCount: number;
+    IsBookmark: boolean;
 }
 
 export type { TechnicalArticleData }
