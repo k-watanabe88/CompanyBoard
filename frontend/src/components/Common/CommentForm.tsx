@@ -9,15 +9,24 @@ import {
     CardContent
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import type { CommentData } from '../../types/CommentData';
 
-const CommentForm = () => {
+type CommentFormProps = {
+    sendComment: (commentData: CommentData) => void;
+    postId: number;
+};
+
+const CommentForm = ({ sendComment, postId }: CommentFormProps) => {
     const [comment, setComment] = useState('');
 
     const handleSubmit = () => {
         if (!comment.trim()) return;
 
-        console.log('送信コメント:', comment);
-
+        const commentData: CommentData = {
+            Text: comment,
+            PostId: postId
+        };
+        sendComment(commentData);
         setComment('');
     };
 

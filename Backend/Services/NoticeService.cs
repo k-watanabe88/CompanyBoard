@@ -3,6 +3,7 @@ using Backend.Interfaces.DAO;
 using Backend.Interfaces.Service;
 using Backend.Models.DB;
 using Backend.Models.DTO.Requests;
+using Backend.Models.DTO.Requests.Common;
 using Backend.Models.DTO.Responses;
 using Backend.Repositories.DAO;
 using System;
@@ -56,6 +57,12 @@ namespace Backend.Services
                 IsImportant = request.IsImportant
             };
             await _noticeDAO.NoticeNewPost(noticePost);
+        }
+
+        public async Task DeleteNotice(DeletePostRequestDTO request)
+        {
+            await _noticeDAO.DeleteNoticeChecks(request.PostId);
+            await _noticeDAO.DeleteNoticePost(request.PostId);
         }
     }
 }

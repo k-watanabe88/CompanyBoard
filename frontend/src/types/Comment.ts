@@ -1,5 +1,5 @@
 /**
- * 
+ * コメントデータ型
  */
 type Comment = {
     Id: number,

@@ -1,4 +1,5 @@
 ﻿using Backend.Models.DTO.Requests;
+using Backend.Models.DTO.Requests.Common;
 using Backend.Models.DTO.Responses;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace Backend.Interfaces.Service
         Task<NoticeDetailResponseDTO?> GetNoticeDetail(int postId, int userId);
         Task<bool> NoticeCheck(int postId, int userId);
         Task NoticeNewPost(NoticeNewPostRequestDTO request, int userId);
+        Task DeleteNotice(DeletePostRequestDTO request);
     }
 }

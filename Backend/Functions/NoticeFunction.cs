@@ -1,5 +1,7 @@
 using Backend.Interfaces.Service;
 using Backend.Models.DTO.Requests;
+using Backend.Models.DTO.Requests.Common;
+using Backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -78,6 +80,20 @@ public class NoticeFunction
             return req.CreateResponse(HttpStatusCode.BadRequest);
         }
         await _NoticeService.NoticeNewPost(request, userId);
+
+        return req.CreateResponse(HttpStatusCode.Created);
+    }
+
+    [Function("NoticeDelete")]
+    public async Task<HttpResponseData> NoticeDelete(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "Notice/Delete")] HttpRequestData req)
+    {
+        var request = await req.ReadFromJsonAsync<DeletePostRequestDTO>();
+        if (request == null)
+        {
+            return req.CreateResponse(HttpStatusCode.NoContent);
+        }
+        await _NoticeService.DeleteNotice(request);
 
         return req.CreateResponse(HttpStatusCode.Created);
     }

@@ -134,6 +134,20 @@ namespace Backend.Repositories.DAO
             _context.NoticePosts.Add(noticePost);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteNoticeChecks(int postId)
+        {
+            var checks = await _context.NoticeChecks
+                .Where(x => x.PostId == postId)
+                .ExecuteDeleteAsync();
+        }
+
+        public async Task DeleteNoticePost(int postId)
+        {
+            var post = await _context.NoticePosts
+                .Where(x => x.Id == postId)
+                .ExecuteDeleteAsync(); ;
+        }
     }
 }
 

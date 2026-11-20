@@ -2,6 +2,7 @@
 using Backend.Interfaces.Service;
 using Backend.Models.DTO.Responses;
 using Backend.Models.DTO.Requests;
+using Backend.Models.DTO.Requests.Common;
 using Backend.Models.DB;
 using Backend.Repositories.DAO;
 using System;
@@ -55,6 +56,26 @@ namespace Backend.Services
                 UserId = userId
             };
             await _TechnicalArticleDAO.AddTechnicalArticle(technicalArticlePostInfo);
+        }
+
+        public async Task AddTechnicalArticleComment(CommentRequestDTO request, int userId)
+        {
+            var technicalArticleCommentInfo = new TechnicalArticleComment
+            {
+                PostId = request.PostId,
+                Text = request.Text,
+                CreatedAt = DateTime.Now,
+                UserId = userId
+            };
+            await _TechnicalArticleDAO.AddTechnicalArticleComment(technicalArticleCommentInfo);
+        }
+
+        public async Task DeleteTechnicalArticle(DeletePostRequestDTO request)
+        {
+            await _TechnicalArticleDAO. DeleteTechnicalArticleBookmarks(request.PostId);
+            await _TechnicalArticleDAO. DeleteTechnicalArticleFavorites(request.PostId);
+            await _TechnicalArticleDAO. DeleteTechnicalArticleComments(request.PostId);
+            await _TechnicalArticleDAO. DeleteTechnicalArticlePost(request.PostId);
         }
     }
 }

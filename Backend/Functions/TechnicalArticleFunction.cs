@@ -94,7 +94,7 @@ public class TechnicalArticleFunction
         return req.CreateResponse(HttpStatusCode.OK);
     }
 
-    [Function("TechnicalArticleNewPost")]
+    [Function("ArticleNewPost")]
     public async Task<HttpResponseData> TechnicalArticleNewPost(
     [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Article/Post")] HttpRequestData req)
     {
@@ -107,5 +107,34 @@ public class TechnicalArticleFunction
         await _TechnicalArticleService.AddTechnicalArticle(request, userId);
 
         return req.CreateResponse(HttpStatusCode.Created);
-    }    
+    }
+
+    [Function("ArticleNewComment")]
+    public async Task<HttpResponseData> TechnicalArticleNewComment(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "Article/Comment")] HttpRequestData req)
+    {
+        var request = await req.ReadFromJsonAsync<CommentRequestDTO>();
+        var userId = 3; // قǔF؏ɒu
+        if (request == null || userId <= 0)
+        {
+            return req.CreateResponse(HttpStatusCode.BadRequest);
+        }
+        await _TechnicalArticleService.AddTechnicalArticleComment(request, userId);
+
+        return req.CreateResponse(HttpStatusCode.Created);
+    }
+
+    [Function("ArticleDelete")]
+    public async Task<HttpResponseData> TechnicalArticleDelete(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "Article/Delete")] HttpRequestData req)
+    {
+        var request = await req.ReadFromJsonAsync<DeletePostRequestDTO>();
+        if (request == null )
+        {
+            return req.CreateResponse(HttpStatusCode.NoContent);
+        }
+        await _TechnicalArticleService.DeleteTechnicalArticle(request);
+
+        return req.CreateResponse(HttpStatusCode.Created);
+    }
 }

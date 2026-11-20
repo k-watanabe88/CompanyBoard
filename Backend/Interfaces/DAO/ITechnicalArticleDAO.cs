@@ -11,9 +11,14 @@ namespace Backend.Interfaces.DAO
     public interface ITechnicalArticleDAO
     {
         Task<List<TechnicalArticleListResponseDTO>> GetArticleList(int userId);
-        Task<TechnicalArticleDetailResponseDTO?> GetTechnicalArticleDetail(int userId,int postId);
+        Task<TechnicalArticleDetailResponseDTO?> GetTechnicalArticleDetail(int userId, int postId);
         Task<bool> ToggleTechnicalArticleBookmark(int userId, int postId);
         Task<bool> ToggleTechnicalArticleFavorite(int userId, int postId);
         Task AddTechnicalArticle(TechnicalArticlePost technicalArticlePost);
+        Task AddTechnicalArticleComment(TechnicalArticleComment technicalArticleComment);
+        Task DeleteTechnicalArticleFavorites(int postId);
+        Task DeleteTechnicalArticleBookmarks(int postId);
+        Task DeleteTechnicalArticleComments(int postId);
+        Task DeleteTechnicalArticlePost(int postId);
     }
 }

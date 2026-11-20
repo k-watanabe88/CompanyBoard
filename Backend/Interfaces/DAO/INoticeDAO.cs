@@ -14,5 +14,7 @@ namespace Backend.Interfaces.DAO
         Task<NoticeDetailResponseDTO?> GetNoticeDetail(int userId, int postId);
         Task<bool> NoticeCheck(int userId, int postId);
         Task NoticeNewPost(NoticePost noticePost);
+        Task DeleteNoticeChecks(int postId);
+        Task DeleteNoticePost(int postId);
     }
 }

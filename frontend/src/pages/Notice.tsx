@@ -5,11 +5,11 @@ import SidebarMenu from "../components/Common/SidebarMenu";
 import NoticeDetail from "../components/Notice/NoticeDetail";
 import NoticeMain from "../components/Notice/NoticeMain";
 import NoticeNewPost from "../components/Notice/NoticeNewPost";
-import { getNoticeData, getNoticeDetail } from "../services/NoticeService";
+import { getNoticeData, getNoticeDetail, deleteNotice  } from "../services/NoticeService";
 import type { NoticeData } from "../types/NoticeData";
 import type { NoticeDetailData } from "../types/NoticeDetailData";
 import type { SortMode } from "../types/SortMode";
-import { getDisplayNoticeList } from "../utils/NoticeUtils";
+import { getDisplayNoticeList} from "../utils/NoticeUtils";
 
 type NoticeView = 'main' | 'detail' | 'post';
 
@@ -28,13 +28,24 @@ const Notice = () => {
     const [noticeDetail, setNoticeDetail] =
         useState<NoticeDetailData | null>(null);
 
-    const onNoticeClick = async (postId: number) => {
+    const handleNoticeClick = async (postId: number) => {
         try {
             const data = await getNoticeDetail(postId);
 
             setNoticeDetail(data);
             setView('detail');
             window.scrollTo({ top: 0 });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+     const handleDeleteClick = async (postId: number) => {
+        try {
+            await deleteNotice(postId);
+            await loadNotice(); // 通知リストを再読み込み
+            setView('main'); // メインビューに戻る
+            setNoticeDetail(null); // 選択された記事をクリア
         } catch (error) {
             console.error(error);
         }
@@ -86,7 +97,7 @@ const Notice = () => {
 
                     {view === 'main' && (
                         <NoticeMain
-                            onNoticeClick={onNoticeClick}
+                            onNoticeClick={handleNoticeClick}
                             onPostClick={() => setView('post')}
                             noticeList={displayList}
                             selectedTab={selectedTab}
@@ -100,7 +111,7 @@ const Notice = () => {
                         <NoticeDetail
                             onClose={() => setView('main')}
                             notice={noticeDetail}
-
+                            onDeleteClick={handleDeleteClick}
                         />
                     )}
 

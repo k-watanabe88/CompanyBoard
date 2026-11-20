@@ -16,10 +16,11 @@ import CommentForm from '../Common/CommentForm';
 
 type TechnicalArticleCommentProps = {
     comments: Comment[];
-};
+    };
 
 const TechnicalArticleComment = ({ comments }: TechnicalArticleCommentProps) => {
     const [isOpen, setIsOpen] = useState(false);
+
     return (
         <Box sx={{ width: '100%' }}>
             {/* 見出し */}

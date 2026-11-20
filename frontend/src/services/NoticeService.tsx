@@ -85,4 +85,27 @@ const noticeNewPost = async (postData : NoticeNewPostData): Promise<void> => {
         console.error(error);
     }
 };
-export {getNoticeData, getNoticeDetail, checkNotice, noticeNewPost};
+
+const deleteNotice = async (PostId: number) => {
+    try {
+        const response = await fetch(
+            "http://localhost:7133/api/Notice/Delete",
+            {
+                method: "Delete",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ PostId: PostId })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("記事の削除に失敗しました。");
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+export {getNoticeData, getNoticeDetail, checkNotice, noticeNewPost, deleteNotice};

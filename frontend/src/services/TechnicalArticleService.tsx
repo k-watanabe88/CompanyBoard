@@ -1,8 +1,9 @@
 import type { TechnicalArticleData } from "../types/TechnicalArticleData";
 import type { TechnicalArticleDetailData } from "../types/TechnicalArticleDetailData"
 import type { TechnicalArticleNewPostData } from "../types/TechnicalArticleNewPostData"
+import type { CommentData } from "../types/CommentData"
 
-const getArticleData = async () : Promise<TechnicalArticleData[]> => {
+const getArticleData = async (): Promise<TechnicalArticleData[]> => {
     const response = await fetch(
         `http://localhost:7133/api/article/List`,
         {
@@ -60,7 +61,7 @@ const toggleBookmarkArticle = async (postId: number): Promise<void> => {
 
     } catch (error) {
         console.error(error);
-    }    
+    }
 };
 
 const toggleFavoriteArticle = async (postId: number): Promise<void> => {
@@ -109,4 +110,57 @@ const technicalArticleNewPost = async (postData: TechnicalArticleNewPostData) =>
         console.error(error);
     }
 };
-export { getArticleData, getArticleDetail, toggleBookmarkArticle, toggleFavoriteArticle, technicalArticleNewPost };
+const addTechnicalArticleComment = async (CommentData: CommentData) => {
+    try {
+        const response = await fetch(
+            "http://localhost:7133/api/Article/Comment",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(CommentData)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("コメントの投稿に失敗しました。");
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const deleteTechnicalArticle = async (PostId: number) => {
+    try {
+        const response = await fetch(
+            "http://localhost:7133/api/Article/Delete",
+            {
+                method: "Delete",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ PostId: PostId })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("記事の削除に失敗しました。");
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+export {
+    getArticleData,
+    getArticleDetail,
+    toggleBookmarkArticle,
+    toggleFavoriteArticle,
+    technicalArticleNewPost,
+    addTechnicalArticleComment,
+    deleteTechnicalArticle
+};

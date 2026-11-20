@@ -1,5 +1,6 @@
-﻿using Backend.Models.DTO.Responses;
-using Backend.Models.DTO.Requests;
+﻿using Backend.Models.DTO.Requests;
+using Backend.Models.DTO.Requests.Common;
+using Backend.Models.DTO.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Backend.Interfaces.Service
         Task<bool> ToggleTechnicalArticleBookmark(int userId, int postId);
         Task<bool> ToggleTechnicalArticleFavorite(int userId, int postId);
         Task AddTechnicalArticle(TechnicalArticleNewPostRequestDTO request, int userId);
+        Task AddTechnicalArticleComment(CommentRequestDTO request, int userId);
+        Task DeleteTechnicalArticle(DeletePostRequestDTO request);
     }
 }

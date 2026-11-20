@@ -10,7 +10,7 @@ import type { TechnicalArticleData } from "../types/TechnicalArticleData";
 import type { TechnicalArticleDetailData } from "../types/TechnicalArticleDetailData";
 import { getArticleData, getArticleDetail } from "../services/TechnicalArticleService";
 import { getDisplayTechnicalArticleList } from "../utils/TechnicalArticleUtils";
-import { toggleBookmarkArticle, toggleFavoriteArticle  } from "../services/TechnicalArticleService";
+import { toggleBookmarkArticle, toggleFavoriteArticle, deleteTechnicalArticle  } from "../services/TechnicalArticleService";
 
 type TechnicalArticleView = 'main' | 'detail' | 'post';
 
@@ -26,7 +26,7 @@ const TechnicalArticle = () => {
 
     useEffect(() => { window.scrollTo({ top: 0 }); }, [view]);
     
-    const onArticleClick = async (postId: number) => {
+    const handleArticleClick = async (postId: number) => {
         try {
             const data = await getArticleDetail(postId);
             setSelectedArticle(data);
@@ -47,6 +47,15 @@ const TechnicalArticle = () => {
         }
     };
 
+    const loadArticleDetail = async (postId: number) => {
+        try {
+            const data = await getArticleDetail(postId);
+            setSelectedArticle(data);
+        } catch (error) {
+            setError("情報の取得に失敗しました");
+        }
+    };
+
     const displayList = getDisplayTechnicalArticleList(
         articleList,
         selectedTab,
@@ -59,7 +68,7 @@ const TechnicalArticle = () => {
         }
     }, [view]);
     
-    const onSearch = (keyword: string) =>{
+    const handleSearch = (keyword: string) =>{
         setKeyword(keyword);
     };
 
@@ -72,6 +81,17 @@ const TechnicalArticle = () => {
         await toggleFavoriteArticle(postId);
         await loadArticle(); // お気に入り状態を更新するために記事リストを再読み込み
     }
+
+    const handleDeleteClick = async (postId: number) => {
+        try {
+            await deleteTechnicalArticle(postId);
+            await loadArticle(); // 記事リストを再読み込み
+            setView('main'); // メインビューに戻る
+            setSelectedArticle(undefined); // 選択された記事をクリア
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <Box>
@@ -97,8 +117,8 @@ const TechnicalArticle = () => {
 
                     {view === 'main' && (
                         <TechnicalArticleMain
-                            onArticleClick={onArticleClick}
-                            onSearch={onSearch}
+                            onArticleClick={handleArticleClick}
+                            onSearch={handleSearch}
                             onPostClick={() => setView('post')}
                             articleList={displayList}
                             selectedTab={selectedTab}
@@ -116,6 +136,8 @@ const TechnicalArticle = () => {
                             post={selectedArticle}
                             onBookmarkClick={handleBookmarkClick}
                             onFavoriteClick={handleFavoriteClick}
+                            loadArticleDetail={loadArticleDetail}
+                            onDeleteClick={handleDeleteClick}
                         />
                     )}
 

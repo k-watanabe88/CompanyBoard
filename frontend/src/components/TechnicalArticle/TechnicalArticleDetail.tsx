@@ -15,26 +15,35 @@ import type { TechnicalArticleDetailData } from '../../types/TechnicalArticleDet
 import TechnicalArticleComment from './TechnicalArticleComment';
 import type { Comment } from '../../types/Comment';
 import CommentForm from '../Common/CommentForm';
+import type { CommentData } from '../../types/CommentData';
+import { addTechnicalArticleComment } from '../../services/TechnicalArticleService';
 
 type TechnicalArticleDetailProps = {
     post: TechnicalArticleDetailData;
     onClose: () => void;
     onBookmarkClick: (postId: number) => void;
     onFavoriteClick: (postId: number) => void;
+    loadArticleDetail: (postId: number) => void;
+    onDeleteClick: (postId: number) => void;
 };
 
-const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClick }: TechnicalArticleDetailProps) => {
-    const handleBookmarkClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClick, loadArticleDetail, onDeleteClick }: TechnicalArticleDetailProps) => {
+    const handleBookmarkClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        onBookmarkClick(post.Id);
-        post.IsBookmark = !post.IsBookmark;
+        await onBookmarkClick(post.Id);
+        await loadArticleDetail(post.Id);
     }
 
-    const handleFavoriteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleFavoriteClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        onFavoriteClick(post.Id);
-        post.IsFavorite = !post.IsFavorite;
+        await onFavoriteClick(post.Id);
+        await loadArticleDetail(post.Id);
     }
+
+    const sendComment = async (CommentData: CommentData) => {
+        await addTechnicalArticleComment(CommentData);
+        await loadArticleDetail(post.Id);
+    };
 
     return (
         <Box>
@@ -62,6 +71,7 @@ const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClic
                 </Typography>
                 <Button
                     variant="contained"
+                    onClick={() => onDeleteClick(post.Id)}
                     sx={{
                         borderRadius: 10,
                         px: 3,
@@ -157,7 +167,10 @@ const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClic
                     />
                 </CardContent>
             </Card>
-            <CommentForm />
+            <CommentForm 
+            sendComment={sendComment}
+            postId={post.Id}
+            />
         </Box>
     );
 };

@@ -97,12 +97,12 @@ namespace Backend.Repositories.DAO
 
                     // お気に入り登録ユーザー数
                     IsFavoriteCount = _context.TechnicalArticleFavorites
-                    .Where(nc => nc.PostId == n.Id)
+                    .Where(nc => nc.PostId == n.Id && nc.IsChecked)
                     .Distinct()
                     .Count(),
 
-                    // コメント
-                    Comments = (
+            // コメント
+            Comments = (
                 from comment in _context.TechnicalArticleComments
                 join user in _context.Users
                     on comment.UserId equals user.Id
@@ -205,6 +205,71 @@ namespace Backend.Repositories.DAO
          public async Task AddTechnicalArticle(TechnicalArticlePost technicalArticlePost)
         {
             _context.TechnicalArticlePosts.Add(technicalArticlePost);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddTechnicalArticleComment(TechnicalArticleComment technicalArticleComment)
+        {
+            _context.TechnicalArticleComments.Add(technicalArticleComment);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTechnicalArticleFavorites(int postId)
+        {
+            var favorites = await _context.TechnicalArticleFavorites
+                .Where(x => x.PostId == postId)
+                .ToListAsync();
+
+            if (favorites.Count == 0)
+            {
+                return;
+            }
+
+            _context.TechnicalArticleFavorites.RemoveRange(favorites);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTechnicalArticleBookmarks(int postId)
+        {
+            var bookmarks = await _context.TechnicalArticleBookmarks
+                .Where(x => x.PostId == postId)
+                .ToListAsync();
+
+            if (bookmarks.Count == 0)
+            {
+                return;
+            }
+
+            _context.TechnicalArticleBookmarks.RemoveRange(bookmarks);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTechnicalArticleComments(int postId)
+        {
+            var comments = await _context.TechnicalArticleComments
+                .Where(x => x.PostId == postId)
+                .ToListAsync();
+
+            if (comments.Count == 0)
+            {
+                return;
+            }
+
+            _context.TechnicalArticleComments.RemoveRange(comments);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteTechnicalArticlePost(int postId)
+        {
+            var post = await _context.TechnicalArticlePosts
+                .FirstOrDefaultAsync(x => x.Id == postId);
+
+            if (post == null)
+            {
+                return;
+            }
+
+            _context.TechnicalArticlePosts.Remove(post);
             await _context.SaveChangesAsync();
         }
     }

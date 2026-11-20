@@ -9,9 +9,10 @@ import { useState } from 'react';
 type NoticeDetailProps = {
     notice: NoticeDetailData;
     onClose: () => void;
+    onDeleteClick: (postId: number) => void;
 };
 
-const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
+const NoticeDetail = ({ notice, onClose, onDeleteClick }: NoticeDetailProps) => {
 
     const [isChecked, setIsChecked] = useState(notice.IsChecked);
 
@@ -68,6 +69,7 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
                 </Typography>
                 <Button
                     variant="contained"
+                    onClick={() => onDeleteClick(notice.Id)}
                     sx={{
                         borderRadius: 10,
                         px: 3,
