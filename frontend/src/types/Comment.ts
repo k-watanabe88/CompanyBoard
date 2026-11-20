@@ -2,10 +2,10 @@
  * 
  */
 type Comment = {
-    id: number,
-    commentUserName: string,
-    text: string,
-    createdAt: string
+    Id: number,
+    CommentUserName: string,
+    Text: string,
+    CreatedAt: string
 }
 
 export type {Comment}

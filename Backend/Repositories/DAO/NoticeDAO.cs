@@ -2,7 +2,7 @@
 using Backend.Interfaces.DAO;
 using Backend.Models.DB;
 using Backend.Models.DTO.Requests;
-using Backend.Models.DTO.Responces;
+using Backend.Models.DTO.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.DAO

@@ -11,7 +11,7 @@ public partial class TechnicalArticleBookmark
 
     public int? PostId { get; set; }
 
-    public bool? IsChecked { get; set; }
+    public bool IsChecked { get; set; }
 
     public virtual TechnicalArticlePost? Post { get; set; }
 

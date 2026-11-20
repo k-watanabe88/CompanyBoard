@@ -3,7 +3,7 @@ using Backend.Interfaces.DAO;
 using Backend.Interfaces.Service;
 using Backend.Models.DB;
 using Backend.Models.DTO.Requests;
-using Backend.Models.DTO.Responces;
+using Backend.Models.DTO.Responses;
 using Backend.Repositories.DAO;
 using System;
 using System.Collections.Generic;

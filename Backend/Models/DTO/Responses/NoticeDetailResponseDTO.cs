@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Models.DTO.Responces
+namespace Backend.Models.DTO.Responses
 {
     public class NoticeDetailResponseDTO
     {

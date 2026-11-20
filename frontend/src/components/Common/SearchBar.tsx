@@ -6,16 +6,19 @@ import { useState } from "react";
  * 検索欄
  * @param onSearch 検索処理
  */
-const SearchBar = ({ onSearch }: { onSearch: (keyword: string) => void }) => {
+type SearchBarProps = {
+    onSearch: (keyword: string) => void;
+};
+const SearchBar = ({ onSearch }: SearchBarProps) => {
 
     const [keyword, setKeyword] = useState("");
 
     /**
      * 検索ボタン押下時処理
      */
-    const Search = async () => {
+    const Search = () => {
         try {
-            await onSearch(keyword);
+         onSearch(keyword);
         } catch (error) {
             console.error(error);
         }
@@ -32,7 +35,7 @@ const SearchBar = ({ onSearch }: { onSearch: (keyword: string) => void }) => {
                     id="keyword"
                     name="keyword"
                     value={keyword}
-                    onKeyDown={Search}
+                    
                     onChange={(e) => setKeyword(e.target.value)}
                     size="small"
                 />

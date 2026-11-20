@@ -1,5 +1,5 @@
 ﻿using Backend.Models.DTO.Requests;
-using Backend.Models.DTO.Responces;
+using Backend.Models.DTO.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

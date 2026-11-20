@@ -9,10 +9,14 @@ import TechnicalArticleToolbar from "./TechnicalArticleToolbar";
 type TechnicalArticleMainProps = {
     onArticleClick: (postId: number) => void;
     onPostClick: () => void;
-    onSearch: () => void;
+    onSearch: (keyword: string) => void;
     articleList: TechnicalArticleData[];
     selectedTab: number;
+    keyword: string;
     onTabChange: (value: number) => void;
+    onBookmarkClick: (postId: number) => void;
+    onFavoriteClick: (postId: number) => void;
+    onKeywordChange: (value: string) => void;
 };
 
 const TechnicalArticleMain = ({
@@ -21,9 +25,13 @@ const TechnicalArticleMain = ({
     onSearch,
     articleList,
     selectedTab,
-    onTabChange
-
+    onTabChange,
+    onBookmarkClick,
+    onFavoriteClick,
 }: TechnicalArticleMainProps) => {
+
+    
+
 
     return (
         <>
@@ -77,6 +85,8 @@ const TechnicalArticleMain = ({
             <TechnicalArticlePosts
                 onArticleClick={onArticleClick}
                 articleList={articleList}
+                onBookmarkClick={onBookmarkClick}
+                onFavoriteClick={onFavoriteClick}
             />
         </>
     );

@@ -11,25 +11,11 @@ import type { TechnicalArticleData } from '../../types/TechnicalArticleData';
 type TechnicalArticlePostsProps = {
     onArticleClick: (postId: number) => void;
     articleList: TechnicalArticleData[];
+    onBookmarkClick: (postId: number) => void;
+    onFavoriteClick: (postId: number) => void;
 };
 
-const TechnicalArticlePosts = ({ onArticleClick, articleList }: TechnicalArticlePostsProps) => {
-    const [isLiked, setIsLiked] = useState(false);
-    const [isBookmark, setIsBookmark] = useState(false);
-
-    const handleLikeClick = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.stopPropagation();
-        setIsLiked((prev) => !prev);
-    };
-
-    const handleBookmarkClick = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.stopPropagation();
-        setIsBookmark((prev) => !prev);
-    };
+const TechnicalArticlePosts = ({ onArticleClick, articleList, onBookmarkClick, onFavoriteClick }: TechnicalArticlePostsProps) => {
 
     return (
         <Box>
@@ -39,11 +25,13 @@ const TechnicalArticlePosts = ({ onArticleClick, articleList }: TechnicalArticle
                     variant="outlined"
                     onClick={() => onArticleClick(article.Id)}
                     sx={{
+                        
                         borderRadius: 2,
                         overflow: 'hidden',
                     }}
                 >
-                    <CardActionArea>
+                    <CardActionArea
+                    disableRipple>
 
                         <CardContent>
                             <Box
@@ -101,7 +89,10 @@ const TechnicalArticlePosts = ({ onArticleClick, articleList }: TechnicalArticle
                                     {/* いいね */}
                                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                         <IconButton
-                                            onClick={handleLikeClick}
+                                            onClick={(e) => {
+                                            e.stopPropagation();
+                                            onFavoriteClick(article.Id);
+                                        }}
                                             color="error"
                                             aria-label="いいね"
                                             size="small"
@@ -120,7 +111,10 @@ const TechnicalArticlePosts = ({ onArticleClick, articleList }: TechnicalArticle
 
                                     {/* ブックマーク */}
                                     <IconButton
-                                        onClick={handleBookmarkClick}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onBookmarkClick(article.Id);
+                                        }}
                                         color="primary"
                                         aria-label="ブックマーク"
                                     >
@@ -169,7 +163,7 @@ const TechnicalArticlePosts = ({ onArticleClick, articleList }: TechnicalArticle
                                     color="text.secondary"
                                     sx={{ whiteSpace: 'nowrap' }}
                                 >
-                                    2026/10/01
+                                    {article.CreatedAt.split('T')[0]}
                                 </Typography>
                             </Box>
                         </CardContent>

@@ -1,13 +1,13 @@
-﻿using Backend.Models.DTO.Responces.Common;
+﻿using Backend.Models.DTO.Responses.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Models.DTO.Responces
+namespace Backend.Models.DTO.Responses
 {
-    public class TechnicalArticleDetailDTO
+    public class TechnicalArticleDetailResponseDTO
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -17,6 +17,8 @@ namespace Backend.Models.DTO.Responces
         public bool IsBookmark { get; set; }
         public bool IsFavorite { get; set; }
         public int IsFavoriteCount { get; set; }
-        public List<CommentDTO>? Comments { get; set; }
+        
+        required
+        public List<CommentDTO> Comments { get; set; }
     }
 }

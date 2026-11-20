@@ -11,6 +11,8 @@ import Divider from '@mui/material/Divider';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
+import type { TechnicalArticleNewPostData } from '../../types/TechnicalArticleNewPostData';
+import { technicalArticleNewPost } from '../../services/TechnicalArticleService';
 
 type TechnicalArticleNewPostProps = {
     onClose: () => void;
@@ -19,6 +21,17 @@ type TechnicalArticleNewPostProps = {
 const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
 
     const [body, setBody] = useState('');
+    const [title, setTitle] = useState('');
+    const [text, setText] = useState('');
+
+    const handleNewPost = async () => {
+            const postData: TechnicalArticleNewPostData = {
+                Title: title,
+                Text: text,
+            };
+            await technicalArticleNewPost(postData);
+            onClose();
+        }
 
     return (
         <Box>
@@ -80,6 +93,10 @@ const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
                                 label="タイトル"
                                 required
                                 fullWidth
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                helperText={`${title.length}/100文字（5文字以上）`}
+                                error={title.trim().length > 0 && title.trim().length < 5}
                             />
 
                             <TextField
@@ -88,10 +105,10 @@ const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
                                 fullWidth
                                 multiline
                                 minRows={8}
-                                value={body}
-                                onChange={(e) => setBody(e.target.value)}
-                                helperText={`${body.length}/1000文字（5文字以上）`}
-                                error={body.trim().length > 0 && body.trim().length < 5}
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                helperText={`${text.length}/1000文字（5文字以上）`}
+                                error={text.trim().length > 0 && text.trim().length < 5}
                             />
 
                             <Box
@@ -105,6 +122,7 @@ const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
                                 <Button
                                     variant="outlined"
                                     startIcon={<SendIcon />}
+                                    onClick={handleNewPost}
                                     sx={{
                                         width: 156,
                                         height: 44,

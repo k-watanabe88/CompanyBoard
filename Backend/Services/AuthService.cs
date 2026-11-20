@@ -1,7 +1,7 @@
 ﻿using Backend.Interfaces.DAO;
 using Backend.Interfaces.Service;
 using Backend.Models.DB;
-using Backend.Models.DTO.Responces;
+using Backend.Models.DTO.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;

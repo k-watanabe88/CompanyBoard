@@ -8,16 +8,18 @@ import TechnicalArticleMain from "../components/TechnicalArticle/TechnicalArticl
 import TechnicalArticleNewPost from "../components/TechnicalArticle/TechnicalArticleNewPost";
 import type { TechnicalArticleData } from "../types/TechnicalArticleData";
 import type { TechnicalArticleDetailData } from "../types/TechnicalArticleDetailData";
-import { getArticleData } from "../services/TechnicalArticleService";
+import { getArticleData, getArticleDetail } from "../services/TechnicalArticleService";
 import { getDisplayTechnicalArticleList } from "../utils/TechnicalArticleUtils";
+import { toggleBookmarkArticle, toggleFavoriteArticle  } from "../services/TechnicalArticleService";
 
 type TechnicalArticleView = 'main' | 'detail' | 'post';
 
 const TechnicalArticle = () => {
 
-    const [view, setView] = useState<TechnicalArticleView>('main')
-     const [error, setError] = useState("");
+    const [view, setView] = useState<TechnicalArticleView>('main');
+    const [error, setError] = useState("");
     const [selectedTab, setSelectedTab] = useState(0);
+    const [keyword, setKeyword] = useState("");
     const [articleList, setArticleList] =
         useState<TechnicalArticleData[]>([]);
     const [selectedArticle, setSelectedArticle] =useState<TechnicalArticleDetailData>();
@@ -26,8 +28,8 @@ const TechnicalArticle = () => {
     
     const onArticleClick = async (postId: number) => {
         try {
-            //const data = await getArticleDetail(postId);
-            //setSelectedArticle(data);
+            const data = await getArticleDetail(postId);
+            setSelectedArticle(data);
             setView('detail');
             window.scrollTo({ top: 0 });
         } catch (error) {
@@ -47,7 +49,8 @@ const TechnicalArticle = () => {
 
     const displayList = getDisplayTechnicalArticleList(
         articleList,
-        selectedTab
+        selectedTab,
+        keyword
     );
 
     useEffect(() => {
@@ -56,7 +59,19 @@ const TechnicalArticle = () => {
         }
     }, [view]);
     
-    const onSearch = () =>{};
+    const onSearch = (keyword: string) =>{
+        setKeyword(keyword);
+    };
+
+    const handleBookmarkClick = async (postId: number) => {
+        await toggleBookmarkArticle(postId);
+        await loadArticle(); // ブックマーク状態を更新するために記事リストを再読み込み
+    };
+
+    const handleFavoriteClick = async (postId: number) => {
+        await toggleFavoriteArticle(postId);
+        await loadArticle(); // お気に入り状態を更新するために記事リストを再読み込み
+    }
 
     return (
         <Box>
@@ -88,6 +103,10 @@ const TechnicalArticle = () => {
                             articleList={displayList}
                             selectedTab={selectedTab}
                             onTabChange={setSelectedTab}
+                            onBookmarkClick={handleBookmarkClick}
+                            onFavoriteClick={handleFavoriteClick}
+                            keyword={keyword}
+                            onKeywordChange={setKeyword}
                         />
                     )}
 
@@ -95,7 +114,8 @@ const TechnicalArticle = () => {
                         <TechnicalArticleDetail
                             onClose={() => setView('main')}
                             post={selectedArticle}
-
+                            onBookmarkClick={handleBookmarkClick}
+                            onFavoriteClick={handleFavoriteClick}
                         />
                     )}
 
