@@ -1,72 +1,34 @@
 import { Box, Card, CardActionArea, CardContent, Divider, IconButton, Typography } from '@mui/material';
-import { useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import type { TechnicalOutputData } from '../../types/TechnicalOutputData';
+import { formatDate } from '../../utils/DateUtils';
 
 type TechnicalOutputPostsProps = {
-    onNoticeClick: (TechnicalOutput: TechnicalOutputData) => void;
+    onOutputClick: (postId: number) => void;
+    outputList: TechnicalOutputData[];
+    onFavoriteClick: (postId: number) => void;
 };
 
-const post: TechnicalOutputData = {
-    id: 1,
-    title: 'タイトル',
-    text: 'Test',
-    postUserName: '田中',
-    createdAt: '2026/10/10',
-    isFavorite: true,
-    isFavoriteCount: 5,
-    comments: [
-        {
-            id: 1,
-            commentUserName: '佐藤',
-            text: '参考になる情報をありがとうございます！',
-            createdAt: '2026/10/10 10:30',
-        },
-        {
-            id: 2,
-            commentUserName: '鈴木',
-            text: 'こちらの内容について、もう少し詳しく教えていただけますか？',
-            createdAt: '2026/10/10 11:15',
-        },
-        {
-            id: 3,
-            commentUserName: '山田',
-            text: '確認しました。私の環境でも同じ動作を確認できました。',
-            createdAt: '2026/10/10 13:45',
-        },
-        {
-            id: 4,
-            commentUserName: '高橋',
-            text: '補足ですが、関連する資料も共有しておきます。',
-            createdAt: '2026/10/10 15:20',
-        },
-    ],
-};
 
-const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
-    const [isLiked, setIsLiked] = useState(false);
 
-    const handleLikeClick = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.stopPropagation();
-        setIsLiked((prev) => !prev);
-    };
+const TechnicalOutputPosts = ({ onOutputClick, outputList, onFavoriteClick }: TechnicalOutputPostsProps) => {
 
     return (
         <Box>
+            {outputList.map((output) => (
             <Card
                 variant="outlined"
-                onClick={() => onNoticeClick(post)}
+                onClick={() => onOutputClick(output.Id)}
                 sx={{
                     borderRadius: 2,
                     overflow: 'hidden',
                 }}
             >
-                <CardActionArea>
+                <CardActionArea
+                disableRipple>
 
                     <CardContent>
                         <Box
@@ -109,7 +71,7 @@ const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
                                         overflowWrap: 'anywhere',
                                     }}
                                 >
-                                    投稿タイトル
+                                    {output.Title}
                                 </Typography>
                             </Box>
 
@@ -121,12 +83,15 @@ const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
                                 }}
                             >
                                     <IconButton
-                                        onClick={handleLikeClick}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onFavoriteClick(output.Id);
+                                        }}
                                         color="error"
                                         aria-label="いいね"
                                         size="small"
                                     >
-                                        {isLiked ? (
+                                        {output.IsFavorite ? (
                                             <FavoriteIcon />
                                         ) : (
                                             <FavoriteBorderIcon />
@@ -134,7 +99,7 @@ const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
                                     </IconButton>
 
                                     <Typography variant="body2">
-                                        1
+                                        {output.IsFavoriteCount}
                                     </Typography>
                             </Box>
                         </Box>
@@ -166,7 +131,7 @@ const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
                                     variant="body2"
                                     color="text.secondary"
                                 >
-                                    田中
+                                    {output.PostUserName}
                                 </Typography>
                             </Box>
 
@@ -175,12 +140,12 @@ const TechnicalOutputPosts = ({ onNoticeClick }: TechnicalOutputPostsProps) => {
                                 color="text.secondary"
                                 sx={{ whiteSpace: 'nowrap' }}
                             >
-                                2026/10/01
+                                {formatDate(output.CreatedAt)}
                             </Typography>
                         </Box>
                     </CardContent>
                 </CardActionArea>
-            </Card>
+            </Card>))}
         </Box>
     );
 };

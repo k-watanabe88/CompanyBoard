@@ -1,22 +1,17 @@
-import CommentIcon from '@mui/icons-material/Comment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import PersonIcon from '@mui/icons-material/Person';
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
-import { Box, Button, Card, CardContent, Collapse, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, IconButton, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import { useState } from 'react';
 import type { TechnicalArticleDetailData } from '../../types/TechnicalArticleDetailData';
-import TechnicalArticleComment from './TechnicalArticleComment';
-import type { Comment } from '../../types/Comment';
 import CommentForm from '../Common/CommentForm';
 import type { CommentData } from '../../types/CommentData';
 import { addTechnicalArticleComment } from '../../services/TechnicalArticleService';
+import CommentList from '../Common/CommentList';
+import { formatDateTime } from '../../utils/DateUtils';
 
 type TechnicalArticleDetailProps = {
     post: TechnicalArticleDetailData;
@@ -108,7 +103,7 @@ const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClic
                                     variant="subtitle2"
                                     color="text.secondary"
                                 >
-                                    投稿日時：{post.CreatedAt}
+                                    投稿日時：{formatDateTime(post.CreatedAt)}
                                 </Typography>
                             </Box>
 
@@ -155,14 +150,20 @@ const TechnicalArticleDetail = ({ post, onClose, onBookmarkClick, onFavoriteClic
                         </Box>
                         <Divider sx={{ my: 1.5 }} />
                         <Box sx={{ textAlign: 'left', mb: 2 }}>
-                            <Typography variant="body1" gutterBottom>
+                            <Typography variant="body1"
+                                gutterBottom
+                                sx={{
+                                    minHeight: '7.5em',
+                                    lineHeight: 1.5,
+                                    whiteSpace: 'pre-wrap',
+                                }}>
                                 {post.Text}
                             </Typography>
                         </Box>
                         <Divider sx={{ my: 1.5 }} />
                     </Box>
 
-                    <TechnicalArticleComment
+                    <CommentList
                         comments={post.Comments}
                     />
                 </CardContent>

@@ -13,7 +13,7 @@ public partial class TechnicalOutputPost
 
     public int? UserId { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public virtual ICollection<TechnicalOutputComment> TechnicalOutputComments { get; set; } = new List<TechnicalOutputComment>();
 

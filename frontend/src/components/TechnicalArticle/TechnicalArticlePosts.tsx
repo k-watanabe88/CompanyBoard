@@ -1,5 +1,4 @@
 import { Box, Card, CardActionArea, CardContent, Divider, IconButton, Typography } from '@mui/material';
-import { useState } from 'react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -7,6 +6,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import type { TechnicalArticleData } from '../../types/TechnicalArticleData';
+import { formatDate } from '../../utils/DateUtils';
 
 type TechnicalArticlePostsProps = {
     onArticleClick: (postId: number) => void;
@@ -163,7 +163,7 @@ const TechnicalArticlePosts = ({ onArticleClick, articleList, onBookmarkClick, o
                                     color="text.secondary"
                                     sx={{ whiteSpace: 'nowrap' }}
                                 >
-                                    {article.CreatedAt.split('T')[0]}
+                                    {formatDate(article.CreatedAt)}
                                 </Typography>
                             </Box>
                         </CardContent>

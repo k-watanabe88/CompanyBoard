@@ -1,24 +1,17 @@
 import CommentIcon from '@mui/icons-material/Comment';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PersonIcon from '@mui/icons-material/Person';
-import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
-import { Box, Button, Card, CardContent, Collapse, IconButton, Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
+import { Box, Collapse, IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
 import type { Comment } from '../../types/Comment';
-import CommentForm from '../Common/CommentForm';
+import { formatDateTime } from '../../utils/DateUtils';
 
 type TechnicalArticleCommentProps = {
     comments: Comment[];
     };
 
-const TechnicalArticleComment = ({ comments }: TechnicalArticleCommentProps) => {
+const CommentList = ({ comments }: TechnicalArticleCommentProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -127,7 +120,7 @@ const TechnicalArticleComment = ({ comments }: TechnicalArticleCommentProps) => 
                                         whiteSpace: 'nowrap',
                                     }}
                                 >
-                                    {comment.CreatedAt}
+                                    {formatDateTime(comment.CreatedAt)}
                                 </Typography>
                             </Box>
 
@@ -138,6 +131,7 @@ const TechnicalArticleComment = ({ comments }: TechnicalArticleCommentProps) => 
                                     color: '#172B45',
                                     whiteSpace: 'pre-wrap',
                                     overflowWrap: 'anywhere',
+                                    textAlign: 'left',
                                 }}
                             >
                                 {comment.Text}
@@ -150,4 +144,4 @@ const TechnicalArticleComment = ({ comments }: TechnicalArticleCommentProps) => 
     );
 };
 
-export default TechnicalArticleComment;
+export default CommentList;

@@ -1,8 +1,6 @@
-import React from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Tab, Tabs } from "@mui/material";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 
 
 type TechnicalArticleToolbarProps = {

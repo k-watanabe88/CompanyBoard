@@ -3,6 +3,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Box, Card, CardActionArea, CardContent, Checkbox, Chip, FormControlLabel, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import type { NoticeData } from '../../types/NoticeData';
+import { formatDate } from '../../utils/DateUtils';
 
 type NoticePostsProps = {
     onNoticeClick: (postId: number) => void;
@@ -29,7 +30,7 @@ const NoticePosts = ({ onNoticeClick, noticeList }: NoticePostsProps) => {
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 10.0 }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.0 }}>
                                         <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                            {notice.CreatedAt.split('T')[0]}
+                                            {formatDate(notice.CreatedAt)}
                                         </Typography>
                                         <Box sx={{ width: 60 }}>
                                             {notice.IsImportant && (
@@ -51,7 +52,7 @@ const NoticePosts = ({ onNoticeClick, noticeList }: NoticePostsProps) => {
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 5.0 }}>
                                     <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                        {`期限 ${notice.DueDate.split('T')[0]}`}
+                                        {`期限 ${formatDate(notice.DueDate)}`}
                                     </Typography>
                                     <FormControlLabel
                                         control={

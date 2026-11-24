@@ -4,6 +4,7 @@ import { Box, Button, Card, CardContent, Checkbox, Table, TableBody, TableCell, 
 import Divider from '@mui/material/Divider';
 import type { NoticeDetailData } from '../../types/NoticeDetailData';
 import { useState } from 'react';
+import { formatDate, formatDateTime } from '../../utils/DateUtils';
 
 
 type NoticeDetailProps = {
@@ -17,31 +18,31 @@ const NoticeDetail = ({ notice, onClose, onDeleteClick }: NoticeDetailProps) => 
     const [isChecked, setIsChecked] = useState(notice.IsChecked);
 
     const handleNoticeCheck = async () => {
-    try {
-        const response = await fetch(
-            "http://localhost:7133/api/Notice/Check",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    postId: notice.Id
-                })
+        try {
+            const response = await fetch(
+                "http://localhost:7133/api/Notice/Check",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        postId: notice.Id
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("確認状態の更新に失敗しました。");
             }
-        );
 
-        if (!response.ok) {
-            throw new Error("確認状態の更新に失敗しました。");
+            setIsChecked(true);
+
+        } catch (error) {
+            console.error(error);
         }
-
-        setIsChecked(true);
-
-    } catch (error) {
-        console.error(error);
-    }
-};
+    };
 
     return (
         <Box>
@@ -95,15 +96,21 @@ const NoticeDetail = ({ notice, onClose, onDeleteClick }: NoticeDetailProps) => 
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 5.0 }}>
                             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                投稿日時：{notice.CreatedAt.split('T')[0]}
+                                投稿日時：{formatDateTime(notice.CreatedAt)}
                             </Typography>
                             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                                確認期限：{notice.DueDate.split('T')[0]}
+                                確認期限：{formatDate(notice.DueDate)}
                             </Typography>
                         </Box>
                         <Divider sx={{ my: 1.5 }} />
                         <Box sx={{ textAlign: 'left', mb: 2 }}>
-                            <Typography variant="body1" gutterBottom>
+                            <Typography variant="body1"
+                                gutterBottom
+                                sx={{
+                                    minHeight: '7.5em',
+                                    lineHeight: 1.5,
+                                    whiteSpace: 'pre-wrap',
+                                }}>
                                 {notice.Text}
                             </Typography>
                         </Box>
@@ -115,7 +122,7 @@ const NoticeDetail = ({ notice, onClose, onDeleteClick }: NoticeDetailProps) => 
                                     borderRadius: 10,
                                     bgcolor: 'white',
                                     border: '1px solid #0a4724',
-                                    color: '#0a4724',                                   
+                                    color: '#0a4724',
                                     py: 1,
                                 }}
                             >
@@ -141,7 +148,7 @@ const NoticeDetail = ({ notice, onClose, onDeleteClick }: NoticeDetailProps) => 
             >
                 <CardContent>
                     <Box sx={{ textAlign: 'left', gap: 2 }}>
-                        <Typography sx={{ fontWeight: 'bold',color: 'text.secondary', }} >
+                        <Typography sx={{ fontWeight: 'bold', color: 'text.secondary', }} >
                             未確認ユーザー一覧
                         </Typography>
                         <Divider sx={{ my: 1.5 }} />

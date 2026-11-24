@@ -28,4 +28,8 @@
     <Folder Include="Models\DB\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Models\DTO\Responses\TechnicalOutputDetailResponse.cs" />
+  </ItemGroup>
+
 </Project>

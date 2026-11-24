@@ -20,7 +20,6 @@ type TechnicalArticleNewPostProps = {
 
 const TechnicalArticleNewPost = ({ onClose }: TechnicalArticleNewPostProps) => {
 
-    const [body, setBody] = useState('');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
 

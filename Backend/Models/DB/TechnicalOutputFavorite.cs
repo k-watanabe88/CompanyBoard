@@ -11,7 +11,7 @@ public partial class TechnicalOutputFavorite
 
     public int? PostId { get; set; }
 
-    public bool? IsChecked { get; set; }
+    public bool IsChecked { get; set; }
 
     public virtual TechnicalOutputPost? Post { get; set; }
 

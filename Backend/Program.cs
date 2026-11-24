@@ -37,5 +37,7 @@ builder.Services.AddScoped<INoticeDAO, NoticeDAO>();
 builder.Services.AddScoped<INoticeService, NoticeService>();
 builder.Services.AddScoped<ITechnicalArticleDAO, TechnicalArticleDAO>();
 builder.Services.AddScoped<ITechnicalArticleService, TechnicalArticleService>();
+builder.Services.AddScoped<ITechnicalOutputDAO, TechnicalOutputDAO>();
+builder.Services.AddScoped<ITechnicalOutputService, TechnicalOutputService>();
 
 builder.Build().Run();

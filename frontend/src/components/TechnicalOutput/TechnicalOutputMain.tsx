@@ -6,15 +6,17 @@ import TechnicalOutputPosts from './TechnicalOutputPosts';
 import TechnicalOutputToolbar from "./TechnicalOutputToolbar";
 
 type TechnicalOutputMainProps = {
-    onNoticeClick: (notice: TechnicalOutputData) => void;
+    onOutputClick: (postId: number) => void;
     onPostClick: () => void;
-    onSearch: () => void;
+    outputList: TechnicalOutputData[];
+    onFavoriteClick: (postId: number) => void;
 };
 
 const TechnicalOutputMain = ({
-    onNoticeClick,
+    onOutputClick,
     onPostClick,
-    onSearch
+    outputList,
+    onFavoriteClick
 }: TechnicalOutputMainProps) => {
 
     return (
@@ -60,7 +62,9 @@ const TechnicalOutputMain = ({
                 onPostClick={onPostClick}
             />
             <TechnicalOutputPosts
-                onNoticeClick={onNoticeClick}
+                onOutputClick={onOutputClick}
+                outputList={outputList}
+                onFavoriteClick={onFavoriteClick}
             />
         </>
     );
